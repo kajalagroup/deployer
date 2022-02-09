@@ -1,10 +1,18 @@
 from django.urls import include, path
 from rest_framework import routers
+from rest_framework.routers import DefaultRouter
 from .views import (
-    TestView
+    DEFAULT_ROUTES,
+    view_deploy
 )
 
 router = routers.DefaultRouter()
+
+router = DefaultRouter()
+for basename, viewset_cls in DEFAULT_ROUTES:
+    if viewset_cls is not None:
+        router.register(basename, viewset_cls, basename=basename)  # type: ignore
+
 
 # for basename, viewset_cls in DEFAULT_ROUTES:
 #     if viewset_cls is not None:
@@ -12,6 +20,8 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("test/", TestView.as_view()),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path(
+        "view-deploy/<int:deploy_id>/<str:token>", view_deploy, name="view_deploy"
+    ),
 ]

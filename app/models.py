@@ -2,6 +2,7 @@ from django.db import models
 from rest_framework_api_key.models import APIKey
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
+import uuid
 
 
 class Project(models.Model):
@@ -38,3 +39,24 @@ class ProjectAPIKey(models.Model):
         editable=False,
         blank=True,
     )
+
+
+class LogResult(models.Model):
+    status_code = models.IntegerField(verbose_name=_("status code"))
+    content = models.TextField(verbose_name=_("content"))
+    created = models.DateTimeField(
+        verbose_name=_("created"),
+        default=now,
+        db_index=True,
+        editable=False,
+        blank=True,
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name="logresult_set",
+    )
+    view_token = models.UUIDField(verbose_name=_("view token"), default=uuid.uuid4, editable=False, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.created)
