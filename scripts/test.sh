@@ -1,2 +1,0 @@
-echo "tuan"
-echo  $date

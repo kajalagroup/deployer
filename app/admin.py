@@ -21,6 +21,14 @@ class ProjectAPIKeyAdmin(ModelAdminBase):
     )
 
 
+class LogResultAdmin(ModelAdminBase):
+    list_display = (
+        "project",
+        "created",
+        "status_code"
+    )
+
+
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(ProjectAPIKey, ProjectAPIKeyAdmin)
-admin.site.register(LogResult, ModelAdminBase)
+admin.site.register(LogResult, LogResultAdmin)

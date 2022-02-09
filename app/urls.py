@@ -22,6 +22,6 @@ urlpatterns = [
     path("", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path(
-        "view-log/<int:log_id>/<str:token>", view_log, name="view_log"
+        "view-log/<int:log_id>/<str:view_token>", view_log, name="view_log"
     ),
 ]

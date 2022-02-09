@@ -8,6 +8,7 @@ import os.path
 from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.translation import gettext_lazy as _
 
 
 class ProcessDeploy(ViewSet):
@@ -74,7 +75,7 @@ def view_log(request, log_id, view_token):
         log = LogResult.objects.get(pk=log_id, view_token=view_token)
         return render(request, "app/view_log.html", {"log": log})
     except LogResult.DoesNotExist:  # pylint: disable=no-member
-        return HttpResponse("Log id = %d does not exist" % log_id)
+        return HttpResponse(_("invalid request"))
 
 
 DEFAULT_ROUTES = [
