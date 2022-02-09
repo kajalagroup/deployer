@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import Project, ProjectAPIKey
+from app.models import LogResult, Project, ProjectAPIKey
 from jutil.admin import ModelAdminBase
 
 
@@ -23,3 +23,4 @@ class ProjectAPIKeyAdmin(ModelAdminBase):
 
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(ProjectAPIKey, ProjectAPIKeyAdmin)
+admin.site.register(LogResult, ModelAdminBase)

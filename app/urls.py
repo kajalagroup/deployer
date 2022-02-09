@@ -3,7 +3,7 @@ from rest_framework import routers
 from rest_framework.routers import DefaultRouter
 from .views import (
     DEFAULT_ROUTES,
-    view_deploy
+    view_log
 )
 
 router = routers.DefaultRouter()
@@ -22,6 +22,6 @@ urlpatterns = [
     path("", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path(
-        "view-deploy/<int:deploy_id>/<str:token>", view_deploy, name="view_deploy"
+        "view-log/<int:log_id>/<str:token>", view_log, name="view_log"
     ),
 ]

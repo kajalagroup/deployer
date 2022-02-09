@@ -8,6 +8,7 @@ import uuid
 class Project(models.Model):
     name = models.CharField(verbose_name=_("name"), max_length=128)
     script_path = models.CharField(verbose_name=_("script path"), max_length=256)
+    success_text = models.CharField(verbose_name=_("success text"), max_length=256, default="")
     active = models.BooleanField(verbose_name=_("active"), default=True)
     created = models.DateTimeField(
         verbose_name=_("created"),
