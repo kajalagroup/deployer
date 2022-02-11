@@ -15,6 +15,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from urllib.parse import urlparse
 import sys
+from jutil.parse import parse_bool
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,8 @@ load_dotenv(dotenv_path)
 MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT") or BASE_DIR)
 LOG_DIR = Path(os.getenv("LOG_DIR") or os.path.join(MEDIA_ROOT, "logs"))
 
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+API_HOST = os.getenv("API_HOST") or ALLOWED_HOSTS[0]
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -34,7 +37,7 @@ SECRET_KEY = os.getenv("SECRET_KEY") or ""
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = parse_bool(os.getenv("DEBUG") or "True")
 
 ALLOWED_HOSTS = []
 
