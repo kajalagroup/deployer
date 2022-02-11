@@ -19,11 +19,12 @@ import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT") or BASE_DIR)
-LOG_DIR = Path(os.getenv("LOG_DIR") or os.path.join(MEDIA_ROOT, "logs"))
+
 dotenv_path = find_dotenv(os.path.dirname(os.path.abspath(__file__)) + "/.env")
 load_dotenv(dotenv_path)
 
+MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT") or BASE_DIR)
+LOG_DIR = Path(os.getenv("LOG_DIR") or os.path.join(MEDIA_ROOT, "logs"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
