@@ -14,11 +14,13 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv, find_dotenv
 from urllib.parse import urlparse
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+MEDIA_ROOT = Path(os.getenv("MEDIA_ROOT") or BASE_DIR)
+LOG_DIR = Path(os.getenv("LOG_DIR") or os.path.join(MEDIA_ROOT, "logs"))
 dotenv_path = find_dotenv(os.path.dirname(os.path.abspath(__file__)) + "/.env")
 load_dotenv(dotenv_path)
 
@@ -138,3 +140,45 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Logging
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {
+        "ndebug": {
+            "()": "django.utils.log.RequireDebugFalse",
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            "datefmt": "%Y-%m-%d %H:%M:%S",
+        },
+        "simple": {"format": "%(levelname)s %(message)s"},
+    },
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": os.path.join(LOG_DIR, "django.log"),
+            "formatter": "verbose",
+        },
+        "console": {
+            "class": "logging.StreamHandler",
+            "stream": sys.stdout,
+        },
+    },
+    "loggers": {
+        "app": {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
+        },
+        "django": {
+            "handlers": ["file", "console"],
+            "level": "WARNING",
+        },
+    },
+}

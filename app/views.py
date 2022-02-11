@@ -9,6 +9,10 @@ from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class ProcessDeploy(ViewSet):
@@ -22,7 +26,6 @@ class ProcessDeploy(ViewSet):
         apikey = APIKey.objects.get_from_key(key)
         project_api_key = ProjectAPIKey.objects.filter(apikey=apikey).first()
         assert isinstance(project_api_key, ProjectAPIKey)
-        print("project_api_key", project_api_key.project)
         project = project_api_key.project
         if not project.active:
             return Response({"result": "the project is inactive", "status": 400})
@@ -30,6 +33,7 @@ class ProcessDeploy(ViewSet):
 
         if not os.path.isfile(script_path):
             return Response({"result": f"Script path {script_path} is not found", "status": 400})
+
         try:
             process = subprocess.Popen(
                 ["bash", script_path],
@@ -57,7 +61,8 @@ class ProcessDeploy(ViewSet):
             return Response({"result": result, "log_url": log_url})
 
         except Exception as error:
-            print(f"Something else went wrong with error {error}")
+            logger.error("There is an  error when execute bash script %s", error)
+
             log = LogResult(content=str(error), status_code=1, project=project)
             log.save()
             log_url = domain + reverse(
