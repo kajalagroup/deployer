@@ -85,20 +85,21 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-db_url = urlparse(os.getenv("DB_URL") or "postgres://dev:dev@localhost:5432/deployer")
+db_url = os.getenv("DB_URL") or "postgres://dev:dev@localhost:5432/deployer"
+db_params = urlparse(db_url)
+db_enginee = "django.db.backends.postgresql_psycopg2" if db_params.scheme == "postgres" else "django.db.backends.mysql"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": db_url.path[1:],
-        "USER": db_url.username,
-        "PASSWORD": db_url.password,
-        "HOST": db_url.hostname,
-        "PORT": 5432,
+        "ENGINE": db_enginee,
+        "NAME": db_params.path[1:],
+        "USER": db_params.username,
+        "PASSWORD": db_params.password,
+        "HOST": db_params.hostname,
+        "PORT": db_params.port,
         "CONN_MAX_AGE": 180,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

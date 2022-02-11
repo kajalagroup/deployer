@@ -4,3 +4,4 @@ psycopg2==2.9.3
 djangorestframework==3.13.1
 djangorestframework-api-key==2.1.0
 django-jutil==3.10.4
+mysqlclient==2.1.0
