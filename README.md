@@ -1,5 +1,12 @@
-# deployer
+# Deployer
 Restful API to deploy Django project.
 
-## Test API keys
-- mWuPROLd.fObXqLrFlAU9Av6ShFQU4yF2om16EHDE
+## Requirements
+
+```
+apt-get install uwsgi-plugin-python3
+```
+
+## Note: 
+if you want deploy its server, you need to set deploy user as root to able restart uwsgi service
+
