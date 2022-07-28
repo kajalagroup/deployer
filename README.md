@@ -5,6 +5,8 @@ Restful API to deploy Django project.
 
 ```
 apt-get install uwsgi-plugin-python3
+apt-get install libmysqlclient-dev
+apt-get install libmariadbclient-dev
 ```
 
 ## Note: 
