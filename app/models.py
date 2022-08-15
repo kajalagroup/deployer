@@ -3,6 +3,8 @@ from rest_framework_api_key.models import APIKey
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 import uuid
+from django.core.exceptions import ValidationError
+import os
 
 
 class Project(models.Model):
@@ -17,6 +19,10 @@ class Project(models.Model):
         editable=False,
         blank=True,
     )
+
+    def clean(self):
+        if not os.path.isfile(self.script_path):
+            raise ValidationError({'script_path': _("The script path does not exist")})
 
     def __str__(self):
         return self.name
