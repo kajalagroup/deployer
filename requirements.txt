@@ -1,7 +1,7 @@
-django==4.0.2
-python-dotenv==0.19.2
-psycopg2-binary==2.9.3
-djangorestframework==3.13.1
-djangorestframework-api-key==2.1.0
-django-jutil==3.10.4
-mysqlclient==2.1.0
+django==4.2
+python-dotenv==1.0.0
+psycopg2-binary==2.9.6
+djangorestframework==3.14.0
+djangorestframework-api-key==2.3.0
+django-jutil==3.11.14
+mysqlclient==2.1.1
