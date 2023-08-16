@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 db_url = os.getenv("DB_URL") or "postgres://dev:dev@localhost:5432/deployer"
 db_params = urlparse(db_url)
-db_enginee = "django.db.backends.postgresql_psycopg2" if db_params.scheme == "postgres" else "django.db.backends.mysql"
+db_enginee = "django.db.backends.postgresql" if db_params.scheme == "postgres" else "django.db.backends.mysql"
 
 DATABASES = {
     "default": {
