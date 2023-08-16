@@ -12,9 +12,6 @@ apt-get install libmariadbclient-dev
 ## Note: 
 if you want deploy its server, you need to set deploy user as root to able restart uwsgi service
 
-Key feed:
-https://deploy-dev.brang.fi/process-deploy/
-
 ## API call:
 
 ```
