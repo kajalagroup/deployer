@@ -67,3 +67,24 @@ class LogResult(models.Model):
 
     def __str__(self):
         return str(self.created)
+
+
+class MaintenanceTime(models.Model):
+    name = models.CharField(verbose_name=_("name"), max_length=128)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    created = models.DateTimeField(
+        verbose_name=_("created"),
+        default=now,
+        db_index=True,
+        editable=False,
+        blank=True,
+    )
+    project = models.ForeignKey(
+        Project,
+        on_delete=models.CASCADE,
+        related_name="maintenancetime_set",
+    )
+
+    def __str__(self):
+        return self.name

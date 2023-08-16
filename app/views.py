@@ -2,15 +2,16 @@ from rest_framework_api_key.models import APIKey
 from rest_framework_api_key.permissions import HasAPIKey
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
-from app.models import LogResult, ProjectAPIKey
+from app.models import LogResult, ProjectAPIKey, MaintenanceTime
 import subprocess
 import os.path
 from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.translation import gettext_lazy as _
+from app.helpers import time_in_range
 import logging
-
+from django.utils.timezone import now
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +34,13 @@ class ProcessDeploy(ViewSet):
 
         if not os.path.isfile(script_path):
             return Response({"result": f"Script path {script_path} is not found", "status": 400})
+
+        today = now()
+        today_time = today.time()
+        for maintenance_time in project.maintenancetime_set.all():
+            assert isinstance(maintenance_time, MaintenanceTime)
+            if time_in_range(maintenance_time.start_time, maintenance_time.end_time, today_time):
+                return Response({"result": "maintenance time", "status": 400})
 
         try:
             process = subprocess.Popen(
