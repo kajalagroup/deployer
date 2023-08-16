@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# CODE QA is handle by Github action
-# if [ -e "pre-release" ] && [ "$1" != "--no-pre-release" ]; then
-#     ./pre-release
-#     if [ "$?" != "0" ]; then
-#         echo "pre-release failed, exiting with error code 1"
-#         exit 1
-#     fi
-# fi
-
 # project release version
 REL="`date +%Y-%m-%dT%H%M%S`"
 
