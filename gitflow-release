@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# CODE QA is handle by Github action
+# if [ -e "pre-release" ] && [ "$1" != "--no-pre-release" ]; then
+#     ./pre-release
+#     if [ "$?" != "0" ]; then
+#         echo "pre-release failed, exiting with error code 1"
+#         exit 1
+#     fi
+# fi
+
+# project release version
+REL="`date +%Y-%m-%dT%H%M%S`"
+
+# project name
+export PROJECT
+PROJECT=`basename \`pwd\``
+echo "Release $REL of $PROJECT"
+
+# push uncommited changes (just in case)
+git add -A '*'
+git commit -m "Release $REL"
+git push
+
+# merge develop branch to master
+git checkout master
+git reset --hard origin/master
+git pull origin master
+git merge develop -m "$REL"
+if [ "$?" != "0" ]; then
+    echo "Merge errors, aborting"
+    exit 1
+fi
+git push -u origin master
+
+# tag master branch
+git tag -a "$REL" -m "$REL"
+git push origin --tags
+
+# return to develop branch
+git checkout develop
+
+
+# done!
+echo "Release $REL done!"
