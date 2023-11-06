@@ -12,11 +12,11 @@ class MaintenanceTimeInlineAdmin(admin.StackedInline):
 
 class ProjectAdmin(ModelAdminBase):
     list_display = ("name", "active", "created")
-    list_filter = ("name",)
     inlines = [MaintenanceTimeInlineAdmin]
 
 
 class LogResultAdmin(ModelAdminBase):
+    list_filter = ("project",)
     list_display = ("project", "created", "status_code")
 
 
