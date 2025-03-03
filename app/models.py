@@ -21,8 +21,9 @@ class Project(models.Model):
     )
 
     def clean(self):
-        if not os.path.isfile(self.script_path):
-            raise ValidationError({'script_path': _("The script path does not exist")})
+        script_file = self.script_path.split(" ")[0]
+        if "/" in script_file and not os.path.isfile(script_file):
+            raise ValidationError({'script_path': _("{} does not exist").format(script_file)})
 
     def __str__(self):
         return self.name
