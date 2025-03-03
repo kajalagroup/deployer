@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 from app.models import LogResult, ProjectAPIKey, MaintenanceTime
 import subprocess
-import os.path
+
 from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import render

@@ -12,6 +12,8 @@ class MaintenanceTimeInlineAdmin(admin.StackedInline):
 
 class ProjectAdmin(ModelAdminBase):
     list_display = ("name", "active", "created")
+    fields = ["name", "active", "script_path", "script_params", "success_text", "created"]
+    readonly_fields = ("created", "script_params")
     inlines = [MaintenanceTimeInlineAdmin]
 
 

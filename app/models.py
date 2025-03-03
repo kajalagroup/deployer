@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 import uuid
 from django.core.exceptions import ValidationError
 import os
-
+import shlex
 
 class Project(models.Model):
     name = models.CharField(verbose_name=_("name"), max_length=128)
@@ -23,7 +23,18 @@ class Project(models.Model):
     def validate_script_path(self):
         script_file = self.script_path.split(" ")[0]
         if "/" in script_file and not os.path.isfile(script_file):
-            raise ValidationError({'script_path': _("{} does not exist").format(script_file)})        
+            raise ValidationError({'script_path': _("{} does not exist").format(script_file)})
+    
+    @property
+    def script_params(self) -> list:
+        """
+        Extract the script parameters from the script path as shell format
+        Sample input: "/some/bash/file/script  'your name' 'my name'"
+        Output: ['/some/bash/file/script', 'your name', 'my name']
+        Returns:
+            list: _description_
+        """
+        return shlex.split(self.script_path)
 
     def clean(self):
         self.validate_script_path()
