@@ -37,6 +37,8 @@ class ProcessDeploy(ViewSet):
             return Response({"result": str(error), "status": 400})
 
         script_path = project.script_path
+        params  = ["bash"] + script_path.split(" ")
+        logger.info("Execute bash script %s", params)
 
 
         today = now()
@@ -48,7 +50,7 @@ class ProcessDeploy(ViewSet):
 
         try:
             process = subprocess.Popen(
-                ["bash", script_path],
+                params,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 universal_newlines=True,
