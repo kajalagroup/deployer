@@ -30,10 +30,14 @@ class ProcessDeploy(ViewSet):
         project = project_api_key.project
         if not project.active:
             return Response({"result": "the project is inactive", "status": 400})
+
+        try:
+            project.validate_script_path()
+        except Exception as error:
+            return Response({"result": str(error), "status": 400})
+
         script_path = project.script_path
 
-        if not os.path.isfile(script_path):
-            return Response({"result": f"Script path {script_path} is not found", "status": 400})
 
         today = now()
         today_time = today.time()
